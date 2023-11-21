@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFC107</color>
+    <color name="colorPrimaryDark">#FFA000</color>
+    <color name="colorAccent">#FF5722</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">#1976D2</color>
+    <color name="morado">#7B1FA2</color>
+</resources>
