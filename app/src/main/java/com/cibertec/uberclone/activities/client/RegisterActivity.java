@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.cibertec.uberclone.R;
 import com.cibertec.uberclone.includes.MyToolbar;
 import com.cibertec.uberclone.models.Client;
+import com.cibertec.uberclone.providers.AuthProvider;
 import com.cibertec.uberclone.providers.ClientProvider;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,7 +21,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.security.AuthProvider;
+
+
 
 public class RegisterActivity extends AppCompatActivity {
     ProgressBar progressBar;
@@ -34,16 +36,21 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
         MyToolbar.show(this,"Registro de usuario",true);
 
         progressBar = findViewById(R.id.progressBar);
+
         mAuthProvider = new AuthProvider();
         mClientProvider = new ClientProvider();
+
+
+
         mButtonRegister = findViewById(R.id.btnRegister);
         mTextInputEmail = findViewById(R.id.textInputEmail);
         mTextInputPassword = findViewById(R.id.textInputPassword);
         mTextInputName = findViewById(R.id.textInputName);
+
+
 
 
         mButtonRegister.setOnClickListener(new View.OnClickListener() {

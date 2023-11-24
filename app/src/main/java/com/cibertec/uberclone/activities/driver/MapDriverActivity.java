@@ -1,4 +1,7 @@
-package com.cibertec.uberclone.activities.diver;
+package com.cibertec.uberclone.activities.driver;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.location.Location;
@@ -6,14 +9,11 @@ import android.location.LocationRequest;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.cibertec.uberclone.includes.MyToolbar;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.cibertec.myapplication.R;
-import com.cibertec.myapplication.includes.MyToolbar;
-import com.cibertec.myapplication.providers.AuthProvider;
+import com.cibertec.uberclone.R;
 import com.cibertec.uberclone.activities.MainActivity;
+import com.cibertec.uberclone.providers.AuthProvider;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
@@ -21,26 +21,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-public class MapDriverActivity extends AppCompatActivity  implements OnMapReadyCallback{
+public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private AuthProvider mAuthProvider;
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
 
-    private LocationRequest mLocationRequest;
-    private FusedLocationProviderClient mFuseLocation;
 
-    LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult){
-            for (Location location: locationResult.getLocations()){
-                if (getApplicationContext() != null){
-                    //Obtener la localizacion del usuario en tiempo real
-                }
-            }
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +46,7 @@ public class MapDriverActivity extends AppCompatActivity  implements OnMapReadyC
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        
+
 
 
     }

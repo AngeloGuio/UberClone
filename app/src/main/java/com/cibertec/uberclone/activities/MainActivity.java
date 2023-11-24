@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import com.cibertec.uberclone.R;
 import com.cibertec.uberclone.activities.client.MapClientActivity;
-import com.cibertec.uberclone.activities.diver.MapDriverActivity;
+import com.cibertec.uberclone.activities.driver.MapDriverActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 

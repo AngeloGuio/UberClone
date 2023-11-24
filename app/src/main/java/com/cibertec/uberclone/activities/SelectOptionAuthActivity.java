@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import com.cibertec.uberclone.R;
 import com.cibertec.uberclone.activities.client.RegisterActivity;
-import com.cibertec.uberclone.activities.diver.RegisterDriverActivity;
+import com.cibertec.uberclone.activities.driver.RegisterDriverActivity;
 import com.cibertec.uberclone.includes.MyToolbar;
 
 public class SelectOptionAuthActivity extends AppCompatActivity {
@@ -59,6 +59,5 @@ public class SelectOptionAuthActivity extends AppCompatActivity {
             Intent intent = new Intent(SelectOptionAuthActivity.this, RegisterDriverActivity.class);
             startActivity(intent);
         }
-
     }
 }

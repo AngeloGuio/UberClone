@@ -1,6 +1,6 @@
 package com.cibertec.uberclone.providers;
 
-import com.cibertec.myapplication.models.Driver;
+import com.cibertec.uberclone.models.Driver;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.cibertec.uberclone.R;
 import com.cibertec.uberclone.activities.client.MapClientActivity;
-import com.cibertec.uberclone.activities.diver.MapDriverActivity;
+import com.cibertec.uberclone.activities.driver.MapDriverActivity;
 import com.cibertec.uberclone.includes.MyToolbar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
