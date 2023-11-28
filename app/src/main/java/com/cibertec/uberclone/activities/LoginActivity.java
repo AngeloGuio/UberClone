@@ -1,6 +1,7 @@
 package com.cibertec.uberclone.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.cibertec.uberclone.R;
 import com.cibertec.uberclone.activities.client.MapClientActivity;
+import com.cibertec.uberclone.activities.client.RegisterActivity;
 import com.cibertec.uberclone.activities.driver.MapDriverActivity;
 import com.cibertec.uberclone.includes.MyToolbar;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     ProgressBar progressBar;
 
     SharedPreferences mPref;
+    AlertDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +52,12 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDataBase = FirebaseDatabase.getInstance().getReference();
 
+
         mPref = getApplicationContext().getSharedPreferences("typeUser", MODE_PRIVATE);
 
         progressBar = findViewById(R.id.progressBar);
+        mButtonLogin.setOnClickListener(view -> {login();});
 
-        mButtonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login();
-            }
-        });
     }
 
 
@@ -69,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (!email.isEmpty() && !password.isEmpty()){
             if (password.length() >= 6){
+
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

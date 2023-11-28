@@ -110,7 +110,7 @@ public class RegisterDriverActivity extends AppCompatActivity {
         mDriverProvider.create(driver).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                progressBar.setVisibility(View.GONE);
+
                 if (task.isSuccessful()){
                     //Toast.makeText(RegisterDriverActivity.this, "El cliente se registro correctamente", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegisterDriverActivity.this, MapDriverActivity.class);
