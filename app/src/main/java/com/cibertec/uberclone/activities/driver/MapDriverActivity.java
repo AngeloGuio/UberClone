@@ -44,6 +44,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -54,6 +55,9 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     private FusedLocationProviderClient mFusedLocation;
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
+
+    private Marker marker;
+
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -83,18 +87,23 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
 
         mMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
+
+
+        starLocation();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == LOCATION_REQUEST_CODE) {
+        if (requestCode == 1) {
 
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    if (gpsActived()){
+                    if (gpsActived()) {
                         mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-                    }else {showAlertDialogNOGPS();}
+                    } else {
+                        showAlertDialogNOGPS();
+                    }
 
                 } else {
                     checkLocationPermissions();
@@ -110,16 +119,20 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 if (gpsActived()) {
                     mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-                }else {showAlertDialogNOGPS();}
+                } else {
+                    showAlertDialogNOGPS();
+                }
 
             } else {
                 checkLocationPermissions();
             }
 
         } else {
-            if (gpsActived()){
+            if (gpsActived()) {
                 mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-            }else {showAlertDialogNOGPS();}
+            } else {
+                showAlertDialogNOGPS();
+            }
 
         }
     }
@@ -132,31 +145,19 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                ActivityCompat.requestPermissions(MapDriverActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+                                ActivityCompat.requestPermissions(MapDriverActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                             }
                         }).create().show();
             } else {
                 ActivityCompat.requestPermissions(MapDriverActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
             }
         }
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SETTINGS_REQUEST_CODE && gpsActived()) {
-
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
@@ -168,24 +169,27 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                 return;
             }
             mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-        }else {showAlertDialogNOGPS();}
+        } else {
+            showAlertDialogNOGPS();
+        }
     }
 
-    private void showAlertDialogNOGPS(){
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+    private void showAlertDialogNOGPS() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Por favor activa tu ubicacion para continuar").setPositiveButton("Configuraciones", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),SETTINGS_REQUEST_CODE);
+                startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), SETTINGS_REQUEST_CODE);
             }
         }).create().show();
     }
-    private boolean gpsActived(){
-        boolean isActivo=false;
-        LocationManager locationManager= (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager.isProviderEnabled(locationManager.GPS_PROVIDER)){
 
-            isActivo=true;
+    private boolean gpsActived() {
+        boolean isActivo = false;
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager.isProviderEnabled(locationManager.GPS_PROVIDER)) {
+
+            isActivo = true;
         }
         return isActivo;
     }
@@ -195,6 +199,18 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+
         mLocationRequest=new LocationRequest();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
@@ -202,11 +218,6 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         mLocationRequest.setSmallestDisplacement(5);
 
         starLocation();
-
-
-
-
-
 
     }
 
